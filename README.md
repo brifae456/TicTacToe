@@ -18,7 +18,7 @@ void printWinner(char);
 
 int main()
 {
-	char winner = ' ';			//Set an empty space if there is currently no winner
+	char winner = ' ';											//Set an empty space if there is currently no winner
 	char response = ' ';
 
 	do
@@ -31,25 +31,25 @@ int main()
 		{
 			printBoard();
 
-			playerMove();			//Invoke playerMove Function
+			playerMove();										//Invoke playerMove Function
 			winner = checkWinner();
 			if (winner != ' ' || checkFreeSpaces() == 0)		//Check for winner if there is no empty space or invoke checkFreeSpace
 			{
-				break;				//break out of loop
+				break;											//break out of loop
 			}
 
-			computerMove();			//Invoke playerMove Function
+			computerMove();										//Invoke playerMove Function
 			winner = checkWinner();
 			if (winner != ' ' || checkFreeSpaces() == 0)		//Check for winner if there is no empty space or invoke checkFreeSpace
 			{
-				break;				//break out of loop
+				break;											//break out of loop
 			}
 		}
 
 		printBoard();
 		printWinner(winner);
 
-		scanf_s("%c", &response);
+		scanf_s("%c", &response);								//Having difficulty with scanf_s function. Trying to ask if player wants to play again, currently non-functional at the moment
 		response = toupper(response);
 		} while (response == 'Y');
 
@@ -57,17 +57,17 @@ int main()
 
 		return 0;
 	}
-	void resetBoard()				//// 2-D Character Array, will set up the rows and columns
+	void resetBoard()										//// 2-D Character Array, will set up the rows and columns
 	{
-		for (int i = 0; i < 3; i++)		//initiate nested loop rows
+		for (int i = 0; i < 3; i++)							//initiate nested loop rows
 		{
-			for (int j = 0; j < 3; j++)		//initiate nested loop 3 times, set up columns
-			{
-				board[i][j] = ' ';			//Telling the squares will have nothing in them at the beginning of game
+			for (int j = 0; j < 3; j++)						//initiate nested loop 3 times, set up columns
+			{	
+				board[i][j] = ' ';							//Telling the squares will have nothing in them at the beginning of game
 			}
 		}
 	}
-	void printBoard()			//Print the character array
+	void printBoard()										//Print the character array
 	{
 		printf(" %c |  %c| %c ", board[0][0], board[0][1], board[0][2]);		//signifies the three place holders, 1st row of empty spaces
 		printf("\n---|---|---\n");												//signifies the 1st row of horizontal lines
@@ -76,67 +76,67 @@ int main()
 		printf(" %c |  %c|  %c ", board[2][0], board[2][1], board[2][2]);		//signifies 3rd row of empty spaces
 		printf("\n");
 	}
-	int  checkFreeSpaces()			//return type event, will check for free spaces if at 0 game will be over.
+	int  checkFreeSpaces()									//return type event, will check for free spaces if at 0 game will be over.
 	{
-		int freeSpaces = 9;		//local variable 9
+		int freeSpaces = 9;									//local variable 9
 
-		for (int i = 0; i < 3; i++)		//nested 4 loop
+		for (int i = 0; i < 3; i++)							//nested 4 loop
 		{
 			for (int j = 0; j < 3; j++)
 			{
-				if (board[i][j] != ' ')		//check if 2-d array of characters does not equal to empty space
+				if (board[i][j] != ' ')						//check if 2-d array of characters does not equal to empty space
 				{
-					freeSpaces--;			//Take freeSpaces local variable decrimate by 1
+					freeSpaces--;							//Take freeSpaces local variable decrimate by 1
 				}
 			}
 		}
-		return freeSpaces;			//If empty spaces is 0 then game is over
+		return freeSpaces;									//If empty spaces is 0 then game is over
 	}
-	void playerMove()				//when it is player move
+	void playerMove()										//when it is player move
 	{
-		int x;					//Make two local variables of x and y Help to invoke row and column of where to move
+		int x;												//Make two local variables of x and y Help to invoke row and column of where to move
 		int y;
 
 		do
 		{
-			printf("Enter row #(1-3): ");		//indicate to player to enter row # 
-			scanf_s("%d", &x);					//to accept user input
-			x--;								//Take away number since starts with 0
-			printf("Enter column #(1-3): ");	//indicate to player to enter column #
+			printf("Enter row #(1-3): ");					//indicate to player to enter row # 
+			scanf_s("%d", &x);								//to accept user input
+			x--;											//Take away number since starts with 0
+			printf("Enter column #(1-3): ");				//indicate to player to enter column #
 			scanf_s("%d", &y);
 			y--;
 
-			if (board[x][y] != ' ')				//check if user inputs are to open spaces
+			if (board[x][y] != ' ')							//check if user inputs are to open spaces
 			{
-				printf("Invalid move!");		//If check is an occupied space, indicates error message
+				printf("Invalid move!");					//If check is an occupied space, indicates error message
 			}
 			else
 			{
 				board[x][y] = PLAYER;
 				break;
 			}
-		} while (board[x][y] != ' ');			//if player  tries to input into occupied square, will allow them to enter another option
+		} while (board[x][y] != ' ');						//if player  tries to input into occupied square, will allow them to enter another option
 	}
-	void computerMove()			//Invokes the computers turn
+	void computerMove()										//Invokes the computers turn
 	{
 		//Creates a seed based on current time
 		srand(time(0));			//
 		int x;
 		int y;
 
-		if (checkFreeSpaces() > 0)		//Checking for free spaces
+		if (checkFreeSpaces() > 0)							//Checking for free spaces
 		{
 			do
 			{
-				x = rand() % 3;			//generate 2 random numbers 0-2
-				y = rand() % 3;			//generate 2 random numbers 0-2
-			} while (board[x][y] != ' ');		//check to see if a spot is even open on board
+				x = rand() % 3;								//generate 2 random numbers 0-2
+				y = rand() % 3;								//generate 2 random numbers 0-2
+				} while (board[x][y] != ' ');	          	//check to see if a spot is even open on board
 
-			board[x][y] = COMPUTER;		//
+			board[x][y] = COMPUTER;		
 		}
 		else
 		{
-			printWinner(' ');			//if no spaces no winner
+			printWinner(' ');								//if no spaces no winner
 		}
 	}
 	char checkWinner()
@@ -168,7 +168,7 @@ int main()
 			return board[0][2];
 		}
 
-		return ' ';			//if there is no winner
+		return ' ';												//if there is no winner
 	}
 	void printWinner(char winner)
 	{
