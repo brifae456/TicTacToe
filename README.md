@@ -184,3 +184,4 @@ int main()
 			printf("IT'S A TIE!");
 		}
 	}
+
